@@ -105,7 +105,7 @@ def main(raw_fn):
     pow_str = validate(pow_str)
     perf_str = validate(perf_str)
     temp_str = validate(temp_str)
-    ext = ['.gpu', '.mem', '.pow', 'perf', 'temp']
+    ext = ['.gpu', '.mem', '.pow', '.pstate', '.temperature.gpu']
     num_gpu = len(gpu_str.split('\n')[0].split(',')) - 1
     header = 'time_sec,' + ','.join(['gpu' + str(i) for i in range(num_gpu)])
     header += '\n'
