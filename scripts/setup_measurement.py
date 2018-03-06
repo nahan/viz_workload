@@ -169,7 +169,7 @@ def main():
                                                       meas_type,
                                                       summary['hosts'])
         elif meas_type == 'gpu':
-            for meas_type in ['gpu.avg', 'gpu.pow', 'gpu.gpu', 'gpu.mem']:
+            for meas_type in ['gpu.avg', 'gpu.pow', 'gpu.gpu', 'gpu.mem', 'pstate', 'temperature.gpu']:
                 details[meas_type] = create_chartdata(summary['run_id'],
                                                       meas_type,
                                                       summary['hosts'])

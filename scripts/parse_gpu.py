@@ -62,45 +62,55 @@ def parse_raw_gpu(raw_fn):
     while lines:
         line = lines.pop(0)
         try:
-            (time, idx, _, util_gpu, util_mem, power_gpu) = line.split(',')
+            (time, idx, _, util_gpu, util_mem, power_gpu, perf_stat, gpu_temp) = line.split(',')
             util_gpu = util_gpu.strip().split()[0]
             util_mem = util_mem.strip().split()[0]
             power_gpu = power_gpu.strip().split()[0]
             time = datetime.strptime(time, '%Y/%m/%d %H:%M:%S.%f')
+            perf_stat = perf_stat.strip().split('P')[1]
+            gpu_temp = gpu_temp.strip().split()[0]
             if not time0:
                 time0 = time
                 gpu_str = '0'
                 mem_str = '0'
                 pow_str = '0'
+                perf_str = '0'
+                temp_str = '0'
             elif int(idx) == 0:
                 t_sec = round((time - time0).total_seconds(), 1)
                 gpu_str += '\n%g' % t_sec
                 mem_str += '\n%g' % t_sec
                 pow_str += '\n%g' % t_sec
+                perf_str += '\n%g' % t_sec
+                temp_str += '\n%g' % t_sec
             gpu_str += ',' + util_gpu
             mem_str += ',' + util_mem
             pow_str += ',' + power_gpu
+            perf_str += ',' + perf_stat
+            temp_str += ',' + gpu_temp
         except Exception as err:
             print(str(err))
             print(line)
             pass
-    return (gpu_str, mem_str, pow_str)
+    return (gpu_str, mem_str, pow_str, perf_str, temp_str)
 
 def main(raw_fn):
     '''
     Parse each line of input file and construct CSV strings, then convert to JSON
     '''
-    gpu_str, mem_str, pow_str = parse_raw_gpu(raw_fn)
+    gpu_str, mem_str, pow_str, perf_str, temp_str = parse_raw_gpu(raw_fn)
     # Often the last set of data is incomplete. Clean the csv records
     gpu_str = validate(gpu_str)
     mem_str = validate(mem_str)
     pow_str = validate(pow_str)
-    ext = ['.gpu', '.mem', '.pow']
+    perf_str = validate(perf_str)
+    temp_str = validate(temp_str)
+    ext = ['.gpu', '.mem', '.pow', 'perf', 'temp']
     num_gpu = len(gpu_str.split('\n')[0].split(',')) - 1
     header = 'time_sec,' + ','.join(['gpu' + str(i) for i in range(num_gpu)])
     header += '\n'
     # Save data for all individual gpu traces
-    for csv_str in [gpu_str, mem_str, pow_str]:
+    for csv_str in [gpu_str, mem_str, pow_str, perf_str, temp_str]:
         csv_str = header + csv_str
         ext_str = ext.pop(0)
         out_fn = raw_fn.replace('data/raw', 'data/final') + ext_str + '.csv'

@@ -103,5 +103,15 @@
     "monitor": "ib",
     "title": "Mellanox Infiniband traffic [ GB ]",
     "type": "timeseries"
+  },
+  "pstate":{
+    "monitor": "pstate",
+    "title": "The current performance state for the GPU (P12->P0)",
+    "type": "timeseries"
+  },
+  "temperature.gpu":{
+    "monitor": "temperature.gpu",
+    "title": "Core GPU temperature. in degrees C",
+    "type": "timeseries"
   }
 }
