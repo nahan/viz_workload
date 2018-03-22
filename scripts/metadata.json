@@ -111,7 +111,27 @@
   },
   "gpu.temperature.gpu":{
     "monitor": "gpu",
-    "title": "Core GPU temperature. in degrees C",
+    "title": "Core GPU temperature[C]",
+    "type": "timeseries"
+  },
+  "gpu.clocks.current.graphics":{
+    "monitor": "gpu",
+    "title": "Current frequency of graphics (shader) clock [MHz]",
+    "type": "timeseries"
+  },
+  "gpu.clocks.current.sm":{
+    "monitor": "gpu",
+    "title": "Current frequency of SM (Streaming Multiprocessor) clock [MHz]",
+    "type": "timeseries"
+  },
+  "gpu.clocks.current.memory":{
+    "monitor": "gpu",
+    "title": "Current frequency of memory clock [MHz]",
+    "type": "timeseries"
+  },
+  "gpu.clocks.current.video":{
+    "monitor": "gpu",
+    "title": "Current frequency of video encoder/decoder clock [MHz]",
     "type": "timeseries"
   }
 }
